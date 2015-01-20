@@ -1,0 +1,140 @@
+.container
+  .row
+    .panel.panel-success
+      .panel-heading.buttonface-bg
+        h1 KONTAKT
+      .panel-body
+        .row
+          .col-md-4
+            .panel.panel-success
+              .panel-heading
+                h2 Jesteśmy dla Ciebie
+              .panel-body
+                h3 What is Lorem Ipsum?
+                p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book...
+                h3 Why do we use it?
+                p It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English...
+          .col-md-4
+            .panel.panel-success
+              .panel-heading
+                h2 Gdzie pracujemy
+              .panel-body
+                .row
+                  .col-md-12
+                    h3 Kancelaria Adwokacka Maciej Kostecki Adwokat
+                    | ul. Jedności 3 lok.1
+                    br 65-018 Zielona Góra
+                .row
+                  .col-md-12
+                    h3 Godziny otwarcia:
+                  .col-md-6
+                    | poniedziałek - piątek:
+                    br sobota:
+                  .col-md-6
+                    | 9:00 - 18:00
+                    br 9:00 - 18:00
+                .row
+                  .col-md-12
+                    h3 Dane firmy
+                    strong NIP:
+                    |  9730653185
+                    br
+                    strong REGON:
+                    |  080994395
+                    br
+                    strong Konto Bankowe:
+                    |  Mbank
+                    br 26114020040000380274060296
+          .col-md-4
+            .panel.panel-success
+              .panel-heading
+                h2 Napisz do nas
+              .panel-body
+                form
+                  .form-group
+                    label for="name" Imię i Nazwisko
+                    input.form-control id="name" placeholder="podaj Imię i Nazwisko"
+                  .form-group
+                    label for="phone" Telefon
+                    input.form-control id="phone" placeholder="podaj telefon kontaktowy"
+                  .form-group
+                    label for="mail" E-mail
+                    input.form-control type="email" id="phone" placeholder="podaj kontaktowy adres e-mail"
+                  .form-group
+                    label for="topic" Temat
+                    input.form-control id="topic" placeholder="podaj temat wiadomości"
+                  .form-group
+                    label for="content" Treść
+                    textarea.form-control rows=3 id="content" placeholder="podaj treść wiadomości"
+                  button.btn.btn-success Wyślij
+        .row
+          .col-md-12
+            .panel.panel-success
+              .panel-heading
+                h2 Mapa Dojazdu
+              .panel-body#map-canvas
+javascript:
+  jQuery(function ($) {
+    // Asynchronously Load the map API
+    var script = document.createElement('script');
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB2kQeOZFuonB83aSjvcIfiww7EyaLwpvI&callback=initialize";
+    document.body.appendChild(script);
+  });
+
+  function initialize() {
+    var map;
+    var bounds = new google.maps.LatLngBounds();
+    var mapOptions = {
+      mapTypeId: 'roadmap'
+    };
+
+    // Display a map on the page
+    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    map.setTilt(45);
+
+    // Multiple Markers
+    var markers = [
+      ['Kancelaria', 51.937393, 15.504160],
+    ];
+
+    // Info Window Content
+    var infoWindowContent = [
+      ['<div class="info_content">' +
+      '<h1>Kancelaria Adwokacka Maciej Kostecki</h3>' +
+      '<p>ul. Jedności 3/2<p>' +
+      '<p>65-018 Jelenia Góra</p>' +
+      '</div>'],
+    ];
+
+    // Display multiple markers on a map
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+    // Loop through our array of markers & place each one on the map
+    for (i = 0; i < markers.length; i++) {
+      var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+      bounds.extend(position);
+      marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: markers[i][0]
+      });
+
+      // Allow each marker to have an info window
+      google.maps.event.addListener(marker, 'click', (function (marker, i) {
+        return function () {
+          infoWindow.setContent(infoWindowContent[i][0]);
+          infoWindow.open(map, marker);
+        }
+      })(marker, i));
+
+      // Automatically center the map fitting all markers on the screen
+      map.fitBounds(bounds);
+    }
+
+    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function (event) {
+      this.setZoom(16);
+      google.maps.event.removeListener(boundsListener);
+    });
+
+  }
