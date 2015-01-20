@@ -14,6 +14,10 @@
  //*= require_self
  */
 
-@import "bootstrap-sprockets";
+$brand-success: #115330 !default;
 
+@import "bootstrap-sprockets";
+@import "bootswatch/cosmo/variables";
+@import "bootstrap";
+@import "bootswatch/cosmo/bootswatch";
 @import "custom";
